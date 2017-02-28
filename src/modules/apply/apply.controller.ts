@@ -56,86 +56,29 @@ class ApplyControllerClass {
         let searchData = req.query;
         let page = req.query['page'] ? Number(req.query['page']) : 1;
         let limit = req.query['limit'] ? Number(req.query['limit']) : 10;
-        if (searchData['name'] && searchData['phoneNumber']) {
-            ApplyDao.countByNameAndPhoneNumber(searchData['name'], searchData['phoneNumber']).then((total) => {
-                if (total > 0) {
-                    ApplyDao.selectByNameAndPhoneNumber(searchData['name'], searchData['phoneNumber'], page, limit).then((result) => {
-                        HttpRes.success(res, {
-                            list: result,
-                            page: page,
-                            limit: limit,
-                            total: total
-                        })
-                    }).catch((err) => {
-                        HttpRes.error(res)
-                    })
-                } else {
+        ApplyDao.countByPhoneNumber(searchData['phoneNumber']).then((total) => {
+            if (total > 0) {
+                ApplyDao.selectByPhoneNumber(searchData['phoneNumber'], page, limit).then((result) => {
                     HttpRes.success(res, {
-                        list: [],
+                        list: result,
                         page: page,
                         limit: limit,
-                        total: 0
+                        total: total
                     })
-                }
-            }).catch((err) => {
-                HttpRes.error(res)
-            })
-        } else if (searchData['name']) {
-            ApplyDao.countByName(searchData['name']).then((total) => {
-                if (total > 0) {
-                    ApplyDao.selectByName(searchData['name'], page, limit).then((result) => {
-                        HttpRes.success(res, {
-                            list: result,
-                            page: page,
-                            limit: limit,
-                            total: total
-                        })
-                    }).catch((err) => {
-                        HttpRes.error(res)
-                    })
-                } else {
-                    HttpRes.success(res, {
-                        list: [],
-                        page: page,
-                        limit: limit,
-                        total: 0
-                    })
-                }
-            }).catch((err) => {
-                HttpRes.error(res)
-            })
-        } else if (searchData['phoneNumber']) {
-            ApplyDao.countByPhoneNumber(searchData['phoneNumber']).then((total) => {
-                if (total > 0) {
-                    ApplyDao.selectByPhoneNumber(searchData['phoneNumber'], page, limit).then((result) => {
-                        HttpRes.success(res, {
-                            list: result,
-                            page: page,
-                            limit: limit,
-                            total: total
-                        })
-                    }).catch((err) => {
-                        HttpRes.error(res)
-                    })
-                } else {
-                    HttpRes.success(res, {
-                        list: [],
-                        page: page,
-                        limit: limit,
-                        total: 0
-                    })
-                }
-            }).catch((err) => {
-                HttpRes.error(res)
-            })
-        } else {
-            HttpRes.success(res, {
-                list: [],
-                page: page,
-                limit: limit,
-                total: 0
-            })
-        }
+                }).catch((err) => {
+                    HttpRes.error(res)
+                })
+            } else {
+                HttpRes.success(res, {
+                    list: [],
+                    page: page,
+                    limit: limit,
+                    total: 0
+                })
+            }
+        }).catch((err) => {
+            HttpRes.error(res)
+        })
     }
 
     public updateStatus(req: Request, res: Response) {
