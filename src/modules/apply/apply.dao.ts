@@ -5,7 +5,7 @@ import {Apply} from "./apply.model";
 
 class ApplyDaoClass {
     private sqls = {
-        insert: 'insert into applies (certItemId,name,shipType,post,phoneCode,phoneNumber,status,createAt) values(?,?,?,?,?,?,0,NOW())',
+        insert: 'insert into applies (certItemId,name,shipType,post,phoneCode,phoneNumber,status,createAt) values(?,?,?,?,?,?,1,NOW())',
         count: 'select count(1) as total from applies',
         countByName: 'select count(1) as total from applies where name = ?',
         countByPhoneNumber: 'select count(1) as total from applies where phoneNumber = ?',
